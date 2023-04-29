@@ -1,3 +1,5 @@
+import java.util.Arrays;
+
 public class TicTacToeGame {
     private char[] board;
     private char playerLetter;
@@ -5,9 +7,7 @@ public class TicTacToeGame {
 
     public TicTacToeGame(char playerLetter) {
         board = new char[10];
-        for (int i = 1; i < board.length; i++) {
-            board[i] = ' ';
-        }
+        Arrays.fill(board, ' ');
         this.playerLetter = playerLetter;
         this.computerLetter = (playerLetter == 'X') ? 'O' : 'X';
     }
@@ -18,5 +18,15 @@ public class TicTacToeGame {
         System.out.println(board[4] + " | " + board[5] + " | " + board[6]);
         System.out.println("---------");
         System.out.println(board[7] + " | " + board[8] + " | " + board[9]);
+    }
+
+    public void showBoard() {
+        System.out.println("Valid cells to make a move:");
+        for (int i = 1; i < board.length; i++) {
+            if (board[i] == ' ') {
+                System.out.print(i + " ");
+            }
+        }
+        System.out.println();
     }
 }
