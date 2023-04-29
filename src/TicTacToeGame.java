@@ -3,7 +3,7 @@ import java.util.Scanner;
 import java.util.Random;
 
 public class TicTacToeGame {
-    private static final int BOARD_SIZE = 10;
+    private static final int BOARD_SIZE = 9;
     private char[] board;
     private char playerLetter;
     private char computerLetter;
@@ -19,11 +19,11 @@ public class TicTacToeGame {
     }
 
     public void displayBoard() {
-        System.out.println(board[1] + " | " + board[2] + " | " + board[3]);
+        System.out.println(board[0] + " | " + board[1] + " | " + board[2]);
         System.out.println("---------");
-        System.out.println(board[4] + " | " + board[5] + " | " + board[6]);
+        System.out.println(board[3] + " | " + board[4] + " | " + board[5]);
         System.out.println("---------");
-        System.out.println(board[7] + " | " + board[8] + " | " + board[9]);
+        System.out.println(board[6] + " | " + board[7] + " | " + board[8]);
     }
 
     public boolean isCellFree(int index) {
@@ -68,7 +68,7 @@ public class TicTacToeGame {
                 System.out.print("Enter your move (1-9): ");
                 int move = scanner.nextInt();
                 if (isValidMove(move)) {
-                    board[move - 1] = humanPlayer;
+                    board[move-1] = humanPlayer;
                     if (hasWon(humanPlayer)) {
                         System.out.println("Congratulations! You win!");
                         break;
@@ -81,18 +81,66 @@ public class TicTacToeGame {
                     System.out.println("Invalid move, try again.");
                 }
             } else {
-                int move = random.nextInt(9) + 1;
-                if (isValidMove(move)) {
-                    board[move - 1] = computerPlayer;
-                    if (hasWon(computerPlayer)) {
-                        System.out.println("Sorry, you lose!");
-                        break;
-                    } else if (isTie()) {
-                        System.out.println("It's a tie!");
-                        break;
+                int move = -1;
+                // Check if computer can win
+                for (int i = 0; i < BOARD_SIZE; i++) {
+                    if (board[i] == ' ') {
+                        board[i] = computerPlayer;
+                        if (hasWon(computerPlayer)) {
+                            move = i;
+                            break;
+                        }
+                        board[i] = ' ';
                     }
-                    currentPlayer = humanPlayer;
                 }
+                // Check if human can win and block it
+                if (move == -1) {
+                    for (int i = 0; i < BOARD_SIZE; i++) {
+                        if (board[i] == ' ') {
+                            board[i] = humanPlayer;
+                            if (hasWon(humanPlayer)) {
+                                move = i;
+                                board[i] = computerPlayer;
+                                break;
+                            }
+                            board[i] = ' ';
+                        }
+                    }
+                }
+                // Take a corner if available
+                if (move == -1) {
+                    if (board[0] == ' ') {
+                        move = 0;
+                    } else if (board[2] == ' ') {
+                        move = 2;
+                    } else if (board[6] == ' ') {
+                        move = 6;
+                    } else if (board[8] == ' ') {
+                        move = 8;
+                    }
+                }
+                // Take the center if corner not available
+                if (move == -1 && board[4] == ' ') {
+                    move = 4;
+                }
+                // Take any available move
+                if (move == -1) {
+                    for (int i = 0; i < BOARD_SIZE; i++) {
+                        if (board[i] == ' ') {
+                            move = i;
+                            break;
+                        }
+                    }
+                }
+                board[move] = computerPlayer;
+                if (hasWon(computerPlayer)) {
+                    System.out.println("Sorry, you lose!");
+                    break;
+                } else if (isTie()) {
+                    System.out.println("It's a tie!");
+                    break;
+                }
+                currentPlayer = humanPlayer;
             }
         }
         scanner.close();
