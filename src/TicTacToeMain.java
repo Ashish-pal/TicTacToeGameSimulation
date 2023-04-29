@@ -7,8 +7,9 @@ public class TicTacToeMain {
         System.out.println("Do you want to play as X or O?");
         char playerLetter = scanner.nextLine().charAt(0);
         TicTacToeGame game = new TicTacToeGame(playerLetter);
+        game.toss();
         game.displayBoard();
-        game.showBoard();
         game.play();
+        game.showBoard();
     }
 }
