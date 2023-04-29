@@ -10,6 +10,5 @@ public class TicTacToeMain {
         game.toss();
         game.displayBoard();
         game.play();
-        game.showBoard();
     }
 }
