@@ -1,4 +1,5 @@
 import java.util.Arrays;
+import java.util.Scanner;
 
 public class TicTacToeGame {
     private char[] board;
@@ -7,7 +8,9 @@ public class TicTacToeGame {
 
     public TicTacToeGame(char playerLetter) {
         board = new char[10];
-        Arrays.fill(board, ' ');
+        for (int i = 1; i < board.length; i++) {
+            board[i] = ' ';
+        }
         this.playerLetter = playerLetter;
         this.computerLetter = (playerLetter == 'X') ? 'O' : 'X';
     }
@@ -28,5 +31,23 @@ public class TicTacToeGame {
             }
         }
         System.out.println();
+    }
+    public void makeMove(int index, char letter) {
+        if (board[index] == ' ') {
+            board[index] = letter;
+        } else {
+            System.out.println("The cell is not empty. Please choose another cell.");
+        }
+    }
+
+    public void play() {
+        Scanner scanner = new Scanner(System.in);
+        int index;
+        do {
+            System.out.println("Please enter the index to make your move (1-9):");
+            index = scanner.nextInt();
+        } while (index < 1 || index > 9 || board[index] != ' ');
+        makeMove(index, playerLetter);
+        displayBoard();
     }
 }
