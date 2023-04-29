@@ -68,7 +68,7 @@ public class TicTacToeGame {
                 System.out.print("Enter your move (1-9): ");
                 int move = scanner.nextInt();
                 if (isValidMove(move)) {
-                    board[move-1] = humanPlayer;
+                    board[move - 1] = humanPlayer;
                     if (hasWon(humanPlayer)) {
                         System.out.println("Congratulations! You win!");
                         break;
@@ -143,7 +143,16 @@ public class TicTacToeGame {
                 currentPlayer = humanPlayer;
             }
         }
-        scanner.close();
+        System.out.print("Do you want to play another game? (y/n): ");
+        String answer = scanner.next();
+        if (answer.equalsIgnoreCase("y")) {
+            this.board = new char[BOARD_SIZE];
+            Arrays.fill(board, ' ');
+            this.toss();
+            this.play();
+        } else if (answer.equalsIgnoreCase("n")) {
+            System.exit(0);
+        }
     }
 
     private boolean isValidMove(int move) {
